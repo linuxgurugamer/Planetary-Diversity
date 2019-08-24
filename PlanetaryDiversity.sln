@@ -23,6 +23,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.Celestia
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetaryDiversity.Components", "src\components\PlanetaryDiversity.Components.csproj", "{851D7BB6-6F14-45FE-A945-F7FD73902D94}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{712F80D7-2AAD-4AC3-93DB-EE318871F1CA}"
+	ProjectSection(SolutionItems) = preProject
+		ChangeLog.txt = ChangeLog.txt
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,5 +78,8 @@ Global
 		{5D13838E-40E3-43C0-B9B2-29C843DB876A} = {E1266E82-3864-415D-AE0C-F1A727386042}
 		{66F689F5-6DCA-498C-BE2B-D91AAE2ABFF6} = {E1266E82-3864-415D-AE0C-F1A727386042}
 		{26F6B438-65DC-4869-B6E4-96A4EA69CF65} = {E1266E82-3864-415D-AE0C-F1A727386042}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C6C9D0DB-E93D-449B-BD26-76AC435E7DF4}
 	EndGlobalSection
 EndGlobal

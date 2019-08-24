@@ -1,0 +1,3 @@
+
+Fixed Reflection call to get Mod_OnVertexBuildHeight (new bool was added back in 1.5 or so)
+Speeded up genertion slightly by moving the percentage calculation out of the inner loop

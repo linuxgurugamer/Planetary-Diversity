@@ -369,6 +369,7 @@ namespace PlanetaryDiversity
                 // Textures
                 Directory.CreateDirectory(CacheDirectory + "textures/" + body.bodyName);
                 String TextureDirectory = CacheDirectory + "textures/" + body.bodyName + "/";
+                
                 if (File.Exists(TextureDirectory + "color.png") && File.Exists(TextureDirectory + "normal.png"))
                 {
                     Texture2D colorMap = Utility.LoadTexture(TextureDirectory + "color.png", false, true, true);
@@ -388,15 +389,15 @@ namespace PlanetaryDiversity
                     pqs.SetupExternalRender();
 
                     // Get the mods
-                    Action<PQS.VertexBuildData> modOnVertexBuildHeight = (Action<PQS.VertexBuildData>)Delegate.CreateDelegate(
-                        typeof(Action<PQS.VertexBuildData>),
+                    Action<PQS.VertexBuildData, bool> modOnVertexBuildHeight = (Action<PQS.VertexBuildData, bool>)Delegate.CreateDelegate(
+                        typeof(Action<PQS.VertexBuildData, bool>),
                         pqs,
                         typeof(PQS).GetMethod("Mod_OnVertexBuildHeight", BindingFlags.Instance | BindingFlags.NonPublic));
                     Action<PQS.VertexBuildData> modOnVertexBuild = (Action<PQS.VertexBuildData>)Delegate.CreateDelegate(
                         typeof(Action<PQS.VertexBuildData>),
                         pqs,
                         typeof(PQS).GetMethod("Mod_OnVertexBuild", BindingFlags.Instance | BindingFlags.NonPublic));
-                    PQSMod[] mods = pqs.GetComponentsInChildren<PQSMod>().Where(m => m.sphere == pqs && m.modEnabled).ToArray();
+                    PQSMod[] mods = pqs.GetComponentsInChildren<PQSMod>().Where(m => m.sphere == pqs && m.modEnabled).ToArray();                   
 
                     // Create the Textures
                     Texture2D colorMap = new Texture2D(pqs.mapFilesize, pqs.mapFilesize / 2, TextureFormat.ARGB32, true);
@@ -414,9 +415,9 @@ namespace PlanetaryDiversity
                     {
                         for (Int32 x = 0; x < pqs.mapFilesize; x++)
                         {
+                            // No need to update the percent here, moved to after this loop
                             // Update Message
-                            percent = ((Double)((y * pqs.mapFilesize) + x) / ((pqs.mapFilesize / 2) * pqs.mapFilesize)) * 100;
-
+                            // percent = ((Double)((y * pqs.mapFilesize) + x) / ((pqs.mapFilesize / 2) * pqs.mapFilesize)) * 100;
                             // Create a VertexBuildData
                             PQS.VertexBuildData data = new PQS.VertexBuildData
                             {
@@ -425,7 +426,7 @@ namespace PlanetaryDiversity
                             };
 
                             // Build from the Mods 
-                            modOnVertexBuildHeight(data);
+                            modOnVertexBuildHeight(data, false);
                             modOnVertexBuild(data);
 
                             // Adjust the height
@@ -448,6 +449,8 @@ namespace PlanetaryDiversity
                             colorMapValues[(y * pqs.mapFilesize) + x] = color;
                             heightMapValues[(y * pqs.mapFilesize) + x] = new Color((Single)height, (Single)height, (Single)height);
                         }
+                        // Update Message
+                        percent = ((Double)((y * pqs.mapFilesize) + pqs.mapFilesize) / ((pqs.mapFilesize / 2) * pqs.mapFilesize)) * 100;
                         yield return null;
                     }
 
