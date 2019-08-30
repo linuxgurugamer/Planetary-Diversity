@@ -9,9 +9,15 @@ namespace PlanetaryDiversity
     /// <summary>
     /// Gives the user an opportunity to set the seed of their savegame
     /// </summary>
-    [KSPAddon(KSPAddon.Startup.MainMenu, true)]
+    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
     public class SeedParams : MonoBehaviour
     {
+        /// <summary>
+        /// The seed for the new game
+        /// </summary>
+        internal static bool activeSet = false;
+        public static bool Active { get; set; } = false;
+
         /// <summary>
         /// The seed for the new game
         /// </summary>
@@ -46,6 +52,8 @@ namespace PlanetaryDiversity
         /// </summary>
         void OnNewGameBtnTap()
         {
+
+            activeSet = false;
             FieldInfo createGameDialog = typeof(MainMenu).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).FirstOrDefault(f => f.FieldType == typeof(PopupDialog));
             if (createGameDialog == null)
                 return;
@@ -61,10 +69,15 @@ namespace PlanetaryDiversity
             if (d2 == null)
                 return;
 
+            Active = true;
+
             // Create the new layout
             DialogGUIHorizontalLayout layout = new DialogGUIHorizontalLayout(new DialogGUIBase[]
             {
-                new DialogGUILabel(Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Seed"), true, false),
+                
+                new DialogGUIToggle(Active, Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Seed"),(b) => Active = b, 200f),
+
+                //new DialogGUILabel(Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Seed"), true, false),
                 new DialogGUIFlexibleSpace(),
                 new DialogGUITextInput(Seed ?? "", Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Placeholder"), false, 32, (s) => Seed = s, 200f, 30f)
             });
@@ -78,14 +91,20 @@ namespace PlanetaryDiversity
 
         void OnGameStateCreated(Game game)
         {
-            Seed = Seed?.Trim();
-            if (String.IsNullOrEmpty(Seed))
-                return;
-            if (Int32.TryParse(Seed, out Int32 iSeed))
-                game.Seed = iSeed;
-            else
-                game.Seed = Seed.GetHashCode();
-            Seed = null;
+            if (Active)
+            {
+                Seed = Seed?.Trim();
+                if (String.IsNullOrEmpty(Seed))
+                    return;
+                if (Int32.TryParse(Seed, out Int32 iSeed))
+                    game.Seed = iSeed;
+                else
+                    game.Seed = Seed.GetHashCode();
+                Seed = null;
+
+                activeSet = true;
+            }
+            
         }
     }
 }

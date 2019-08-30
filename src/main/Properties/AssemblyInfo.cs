@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("eaeac00f-05ba-4c4b-9625-ef12c0384cda")]
-[assembly: AssemblyVersion("1.0.0.0")]
+//[assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: KSPAssembly("PlanetaryDiversity", 1, 0)]
 [assembly: KSPAssemblyDependency("PlanetaryDiversity.API", 1, 0)]

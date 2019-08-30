@@ -5,6 +5,7 @@ using System.Reflection;
 using PlanetaryDiversity.Components;
 using UnityEngine;
 using Gradient = PlanetaryDiversity.Components.Gradient;
+//using Report = PlanetaryDiversity.Report;
 
 namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
 {
@@ -88,6 +89,11 @@ namespace PlanetaryDiversity.CelestialBodies.GasPlanetColor
 
             // Apply the material
             renderer.sharedMaterial = material;
+
+            //Report::Report.fetch.SetPrefix("PlanetaryBody: " + body.bodyDisplayName);
+            //Report::Report.fetch.ReportLine("Color altered");
+            //Report::Report.fetch.ReportSection();
+
             return true;
         }
     }

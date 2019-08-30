@@ -41,7 +41,7 @@ namespace PlanetaryDiversity.CelestialBodies.Name
                     usesSystematicName.Add(b.transform.name, false);
                 }
             }
-            
+
             // Are we a star?
             if (body.scaledBody.GetComponentsInChildren<SunShaderController>().Length != 0)
             {
@@ -63,15 +63,22 @@ namespace PlanetaryDiversity.CelestialBodies.Name
                 if (usesSystematicName[star.transform.name])
                 {
                     CelestialBody referenceBody = body.orbit.referenceBody;
-                    body.bodyDisplayName = GenerateSystematicName(referenceBody.bodyDisplayName,
-                        referenceBody.orbitingBodies.IndexOf(body), star == referenceBody);
+                    do
+                    {
+                        body.bodyDisplayName = GetRandom(HighLogic.CurrentGame.Seed, 0, 100) < 25 ? GenerateProceduralName() :
+                            GenerateSystematicName(referenceBody.bodyDisplayName,
+                                referenceBody.orbitingBodies.IndexOf(body), star == referenceBody);
+                    } while (body.bodyDisplayName == "");
                 }
                 else
                 {
-                    body.bodyDisplayName = GenerateName();
+                    do
+                    {
+                        body.bodyDisplayName = GetRandom(HighLogic.CurrentGame.Seed, 0, 100) < 75 ? GenerateProceduralName() : GenerateName();
+                    } while (body.bodyDisplayName == "");
                 }
             }
-            
+
             return true;
         }
 
@@ -84,7 +91,7 @@ namespace PlanetaryDiversity.CelestialBodies.Name
                 return body;
             return GetNextStar(body.orbit.referenceBody);
         }
-        
+
         /// <summary>
         /// Returns a random name for the star
         /// </summary>
@@ -93,16 +100,16 @@ namespace PlanetaryDiversity.CelestialBodies.Name
             // Load Greek Letters
             String[] commonLetters = Starnames.commonLetters;
             String[] rareLetters = Starnames.rareLetters;
-            
+
             // Load Greek Characters
             String[] commonChars = Starnames.commonChars;
             String[] rareChars = Starnames.rareChars;
-            
+
             // Load constellation names
             String[] prefix = Starnames.starprefix;
             String[] middle = Starnames.starmiddle;
             String[] suffix = Starnames.starsuffix;
-            
+
             // Load multiple systems nomenclature
             String[] multiple = Starnames.starmultiple;
             Boolean useChars = false;
@@ -111,7 +118,7 @@ namespace PlanetaryDiversity.CelestialBodies.Name
 
             String name = GetRandomElement(HighLogic.CurrentGame.Seed, prefix);
             name += GetRandomElement(HighLogic.CurrentGame.Seed, middle);
-            
+
             // Avoid being anal
             if (name == "An")
             {
@@ -226,6 +233,16 @@ namespace PlanetaryDiversity.CelestialBodies.Name
             return name;
         }
 
+        ProceduralNameGenerator names = null;
+        private string GenerateProceduralName()
+        {
+            if (names == null)
+                names = new ProceduralNameGenerator("GameData/PlanetaryDiversity/PluginData/names.txt");
+            if (!names.initialized)
+                return GenerateName();
+            return names.GenerateRandomWord(GetRandom(HighLogic.CurrentGame.Seed, 7, 12));
+        }
+
         /// <summary>
         /// Returns a systematic name for the body
         /// </summary>
@@ -243,20 +260,20 @@ namespace PlanetaryDiversity.CelestialBodies.Name
         /// Converts an integer into a roman numeral
         /// </summary>
 		public static String ToRomanNumeral(Int32 number)
-		{
-			String romanNumeral = String.Empty;
-			while (number > 0)
-			{
-				// find biggest numeral that is less than equal to number
-				Int32 index = Planetnames.numerals.ToList().FindIndex(x => x <= number);
-			    
-				// subtract it's value from your number
-				number -= Planetnames.numerals[index];
-			    
-				// tack it onto the end of your roman numeral
-				romanNumeral += Planetnames.romanNumerals[index];
-			}
-			return romanNumeral;
-		}
+        {
+            String romanNumeral = String.Empty;
+            while (number > 0)
+            {
+                // find biggest numeral that is less than equal to number
+                Int32 index = Planetnames.numerals.ToList().FindIndex(x => x <= number);
+
+                // subtract it's value from your number
+                number -= Planetnames.numerals[index];
+
+                // tack it onto the end of your roman numeral
+                romanNumeral += Planetnames.romanNumerals[index];
+            }
+            return romanNumeral;
+        }
     }
 }

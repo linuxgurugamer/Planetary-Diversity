@@ -1,3 +1,12 @@
 
-Fixed Reflection call to get Mod_OnVertexBuildHeight (new bool was added back in 1.5 or so)
-Speeded up genertion slightly by moving the percentage calculation out of the inner loop
+1.7.3
+	Fixed Reflection call to get Mod_OnVertexBuildHeight (new bool was added back in 1.5 or so)
+	Speeded up genertion slightly by moving the percentage calculation out of the inner loop
+	Added InstallChecker
+	Added AssemblyVersion.tt
+	Added .version file
+	Added toggle on new game dialog, if disabled won't do the generation
+	Fixed the Game Seed field not showing up when entering the New Game menu after being in a game
+	Added an abort button to stop generation of info
+	Improved name generation with a procedural name generator
+	Added settings page, to show whether it is active or not.  Changes not allowed

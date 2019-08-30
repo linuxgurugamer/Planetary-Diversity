@@ -26,3 +26,12 @@ Don't worry, all tweaks can be disabled seperately. Just open GameData/Planetary
 Planetary Diversity is licensed under the Terms of the MIT License
 
 Copyright (c) Dorian Stoll (StollD / Thomas P.) 2017
+
+### ProceduralNameGenerator
+Files in the ProceduralNameGenerator folder are covered by an MIT license:
+
+Copyright (c) 2015 Dave Carlile
+
+Original code available from here:
+
+https://crappycoding.com/2017/03/procedural-names/

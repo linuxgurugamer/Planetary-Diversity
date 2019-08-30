@@ -1,0 +1,21 @@
+{
+  "NAME": "Planetary-Diversity",
+  "URL": "http://ksp.spacetux.net/avc//Planetary-Diversity",
+  "DOWNLOAD": "",
+  "GITHUB": {
+    "USERNAME": "linuxgurugamer",
+    "REPOSITORY": "https://github.com/linuxgurugamer/Planetary-Diversity",
+    "ALLOW_PRE_RELEASE": false
+  },
+  "VERSION": {
+    "MAJOR": 1,
+    "MINOR": 7,
+    "PATCH": 3,
+    "BUILD": 0
+  },
+  "KSP_VERSION_MIN": {
+    "MAJOR": 1,
+    "MINOR": 7,
+    "PATCH": 3
+  }
+}

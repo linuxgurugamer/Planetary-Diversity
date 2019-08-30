@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using PlanetaryDiversity.Components;
 using UnityEngine;
 using Gradient = PlanetaryDiversity.Components.Gradient;
+//using Report = PlanetaryDiversity.Report;
 
 namespace PlanetaryDiversity.CelestialBodies.Atmosphere
 {
@@ -113,10 +114,15 @@ namespace PlanetaryDiversity.CelestialBodies.Atmosphere
             // atmosphere is toggled, or a new one gets added
             if (GetRandom(HighLogic.CurrentGame.Seed, 0, 100) < 5)
             {
+                //Report::Report.fetch.SetPrefix("PlanetaryBody: " + body.bodyDisplayName);
+                //Report::Report.fetch.ReportLine("Atmosphere toggled");
+               
                 ToggleAtmosphere(body);
+
+                //Report::Report.fetch.ReportSection();
                 return true;
             }
-            
+            //Report::Report.fetch.ReportSection();
             // Did we tweak something?
             return false;
         }

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Reflection;
 using PlanetaryDiversity.Components;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 namespace PlanetaryDiversity
 {
@@ -120,7 +122,8 @@ namespace PlanetaryDiversity
 
             // Register the callback for manipulating the system
             GameEvents.onGameSceneSwitchRequested.Add(OnGameSceneSwitchRequested);
-            GameEvents.onLevelWasLoaded.Add(OnLevelWasLoaded);
+           GameEvents.onLevelWasLoaded.Add(SceneLoaded);
+           
         }
 
         /// <summary>
@@ -128,9 +131,14 @@ namespace PlanetaryDiversity
         /// </summary>
         void OnGameSceneSwitchRequested(GameEvents.FromToAction<GameScenes, GameScenes> action)
         {
+            
             // Are we loading a game?
             if (action.from == GameScenes.MAINMENU && action.to == GameScenes.SPACECENTER)
             {
+                if (!HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
+                    return;
+
+
                 // Get a sorted list of bodies
                 List<CelestialBody> bodies = Utility.GetSortedBodies();
 
@@ -285,8 +293,14 @@ namespace PlanetaryDiversity
         /// <summary>
         /// Gets called when the spacecenter scene was loaded
         /// </summary>
-        void OnLevelWasLoaded(GameScenes scene)
+        void SceneLoaded(GameScenes scene)
         {
+            if (scene == GameScenes.MAINMENU)
+                return;
+            if (SeedParams.activeSet)
+                HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active = SeedParams.Active;
+            if (!HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
+                return;
             // Should we update the Scaled Space?
             if (scaledSpaceUpdate.Count != 0 && scene == GameScenes.SPACECENTER)
             {
@@ -297,7 +311,6 @@ namespace PlanetaryDiversity
                 InputLockManager.SetControlLock("planetaryDiversityCache");
             }
         }
-
         private Boolean guiEnabled;
 
         /// <summary>
@@ -305,13 +318,18 @@ namespace PlanetaryDiversity
         /// </summary>
         void OnGUI()
         {
+            if (HighLogic.CurrentGame != null && !HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
+                return;
             if (!guiEnabled)
                 return;
-
+ 
             GUILayout.Window("PlanetaryDiversity".GetHashCode(), new Rect(100, 100, 300, 200), (id) => {
                 GUILayout.BeginVertical();
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(Localizer.Format("#LOC_PlanetaryDiversity_GUI_Label", index, scaledSpaceUpdate.Count));
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(Localizer.Format("#LOC_PlanetaryDiversity_No_Response"));
                 GUILayout.EndHorizontal();
                 GUILayout.BeginScrollView(new Vector2(0, Single.MaxValue));
                 GUIStyle green = new GUIStyle(GUI.skin.label);
@@ -339,10 +357,25 @@ namespace PlanetaryDiversity
                     }
                 }
                 GUILayout.EndScrollView();
+                GUILayout.BeginHorizontal();
+                GUILayout.FlexibleSpace();
+                if (abort)
+                {
+                    GUILayout.Button("Aborting...", GUILayout.Width(90));
+                }
+                else
+                {
+                    if (GUILayout.Button("Abort", GUILayout.Width(90)))
+                    {
+                        abort = true;
+                    }
+                }
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
                 GUILayout.EndVertical();
             }, Localizer.Format("#LOC_PlanetaryDiversity_GUI_Title"));
         }
-
+        private bool abort = false;
         private Double percent;
         private String current;
         private Int32 index;
@@ -493,6 +526,10 @@ namespace PlanetaryDiversity
                 }
                 percent = 0;
                 yield return null;
+                if (abort)
+                {
+                    break;
+                }
             }
             guiEnabled = false;
             scaledSpaceUpdate.Clear();

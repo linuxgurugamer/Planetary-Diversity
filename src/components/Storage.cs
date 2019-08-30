@@ -19,6 +19,8 @@ namespace PlanetaryDiversity.Components
         /// </summary>
         public static Boolean Has(CelestialBody body, String id)
         {
+            if (storageComponent == null)
+                return false;
             Component c = body?.gameObject.GetComponent(storageComponent);
             if (c == null)
                 return false;
