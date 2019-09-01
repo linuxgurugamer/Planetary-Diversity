@@ -51,10 +51,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\PlanetaryDiversity.Report\PlanetaryDiversity.Report.csproj">
-      <Project>{858b03e8-9623-4862-9513-292105a7d072}</Project>
-      <Name>PlanetaryDiversity.Report</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\api\PlanetaryDiversity.API.csproj">
       <Project>{cfaec4bd-4974-451a-9c3c-08e90ea75a6c}</Project>
       <Name>PlanetaryDiversity.API</Name>

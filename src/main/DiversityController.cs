@@ -122,8 +122,7 @@ namespace PlanetaryDiversity
 
             // Register the callback for manipulating the system
             GameEvents.onGameSceneSwitchRequested.Add(OnGameSceneSwitchRequested);
-           GameEvents.onLevelWasLoaded.Add(SceneLoaded);
-           
+            GameEvents.onLevelWasLoaded.Add(SceneLoaded);
         }
 
         /// <summary>
@@ -131,10 +130,12 @@ namespace PlanetaryDiversity
         /// </summary>
         void OnGameSceneSwitchRequested(GameEvents.FromToAction<GameScenes, GameScenes> action)
         {
-            
             // Are we loading a game?
             if (action.from == GameScenes.MAINMENU && action.to == GameScenes.SPACECENTER)
             {
+                if (SeedParams.activeSet)
+                    HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active = true;
+
                 if (!HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
                     return;
 
@@ -157,7 +158,7 @@ namespace PlanetaryDiversity
 
                     // Was the body edited?
                     Boolean edited = false;
-                    
+
                     // Tweak the PQS itself
                     for (Int32 i = 0; i < PQSTweakers.Count; i++)
                     {
@@ -297,20 +298,25 @@ namespace PlanetaryDiversity
         {
             if (scene == GameScenes.MAINMENU)
                 return;
-            if (SeedParams.activeSet)
-                HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active = SeedParams.Active;
-            if (!HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
-                return;
-            // Should we update the Scaled Space?
-            if (scaledSpaceUpdate.Count != 0 && scene == GameScenes.SPACECENTER)
+            if (scene == GameScenes.SPACECENTER)
             {
-                guiEnabled = true;
-                StartCoroutine(UpdateScaledSpace());
+                if (SeedParams.activeSet)
+                    HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active = true;
+                SeedParams.activeSet = false;
+                if (!HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
+                    return;
+                // Should we update the Scaled Space?
+                if (scene == GameScenes.SPACECENTER)
+                {
+                    guiEnabled = true;
+                    StartCoroutine(UpdateScaledSpace());
 
-                FlightDriver.SetPause(true, false);
-                InputLockManager.SetControlLock("planetaryDiversityCache");
+                    FlightDriver.SetPause(true, false);
+                    InputLockManager.SetControlLock("planetaryDiversityCache");
+                }
             }
         }
+
         private Boolean guiEnabled;
 
         /// <summary>
@@ -322,8 +328,9 @@ namespace PlanetaryDiversity
                 return;
             if (!guiEnabled)
                 return;
- 
-            GUILayout.Window("PlanetaryDiversity".GetHashCode(), new Rect(100, 100, 300, 200), (id) => {
+
+            GUILayout.Window("PlanetaryDiversity".GetHashCode(), new Rect(100, 100, 300, 200), (id) =>
+            {
                 GUILayout.BeginVertical();
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(Localizer.Format("#LOC_PlanetaryDiversity_GUI_Label", index, scaledSpaceUpdate.Count));
@@ -402,7 +409,7 @@ namespace PlanetaryDiversity
                 // Textures
                 Directory.CreateDirectory(CacheDirectory + "textures/" + body.bodyName);
                 String TextureDirectory = CacheDirectory + "textures/" + body.bodyName + "/";
-                
+
                 if (File.Exists(TextureDirectory + "color.png") && File.Exists(TextureDirectory + "normal.png"))
                 {
                     Texture2D colorMap = Utility.LoadTexture(TextureDirectory + "color.png", false, true, true);
@@ -430,7 +437,7 @@ namespace PlanetaryDiversity
                         typeof(Action<PQS.VertexBuildData>),
                         pqs,
                         typeof(PQS).GetMethod("Mod_OnVertexBuild", BindingFlags.Instance | BindingFlags.NonPublic));
-                    PQSMod[] mods = pqs.GetComponentsInChildren<PQSMod>().Where(m => m.sphere == pqs && m.modEnabled).ToArray();                   
+                    PQSMod[] mods = pqs.GetComponentsInChildren<PQSMod>().Where(m => m.sphere == pqs && m.modEnabled).ToArray();
 
                     // Create the Textures
                     Texture2D colorMap = new Texture2D(pqs.mapFilesize, pqs.mapFilesize / 2, TextureFormat.ARGB32, true);
@@ -509,7 +516,7 @@ namespace PlanetaryDiversity
                     body.scaledBody.GetComponent<MeshRenderer>().material.SetTexture("_BumpMap", normalMap);
                     yield return null;
                 }
-                
+
                 // OnDemand
                 if (Templates.IsKopernicusInstalled)
                 {

@@ -39,8 +39,8 @@
 
 # 3:SOURCEFILE, DESTDIR
 3:PlanetaryDiversity.version,GameData/PlanetaryDiversity
-#3:LICENSE,GameData/KerbalHotSeat
-#3:README.md,GameData/KerbalHotSeat
+3:LICENSE,GameData/PlanetaryDiversity
+3:README.md,GameData/PlanetaryDiversity
 
 #
 # End of file

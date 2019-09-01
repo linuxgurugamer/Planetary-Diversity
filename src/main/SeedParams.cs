@@ -21,7 +21,7 @@ namespace PlanetaryDiversity
         /// <summary>
         /// The seed for the new game
         /// </summary>
-        public String Seed { get; set; }
+        public static String Seed { get; set; }
 
         /// <summary>
         /// The main menu Instance
@@ -74,7 +74,7 @@ namespace PlanetaryDiversity
             // Create the new layout
             DialogGUIHorizontalLayout layout = new DialogGUIHorizontalLayout(new DialogGUIBase[]
             {
-                
+
                 new DialogGUIToggle(Active, Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Seed"),(b) => Active = b, 200f),
 
                 //new DialogGUILabel(Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Seed"), true, false),
@@ -95,16 +95,22 @@ namespace PlanetaryDiversity
             {
                 Seed = Seed?.Trim();
                 if (String.IsNullOrEmpty(Seed))
-                    return;
-                if (Int32.TryParse(Seed, out Int32 iSeed))
-                    game.Seed = iSeed;
+                {
+                    System.Random i = new System.Random(); ;
+                    game.Seed = i.Next();                  
+                }
                 else
-                    game.Seed = Seed.GetHashCode();
+                {
+                    if (Int32.TryParse(Seed, out Int32 iSeed))
+                        game.Seed = iSeed;
+                    else
+                        game.Seed = Seed.GetHashCode();
+                }
                 Seed = null;
 
                 activeSet = true;
             }
-            
+
         }
     }
 }
