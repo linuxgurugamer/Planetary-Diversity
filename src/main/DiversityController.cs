@@ -306,9 +306,10 @@ namespace PlanetaryDiversity
                 if (!HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
                     return;
                 // Should we update the Scaled Space?
-                if (scene == GameScenes.SPACECENTER)
+                if (scene == GameScenes.SPACECENTER && scaledSpaceUpdate.Count != 0)
                 {
                     guiEnabled = true;
+                    abort = false;
                     StartCoroutine(UpdateScaledSpace());
 
                     FlightDriver.SetPause(true, false);
@@ -380,6 +381,7 @@ namespace PlanetaryDiversity
                 GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();
                 GUILayout.EndVertical();
+                GUI.DragWindow();
             }, Localizer.Format("#LOC_PlanetaryDiversity_GUI_Title"));
         }
         private bool abort = false;
