@@ -125,6 +125,28 @@ namespace PlanetaryDiversity
             GameEvents.onLevelWasLoaded.Add(SceneLoaded);
         }
 
+        bool Setting(string node, string s)
+        {
+            if (node == "PD_CELESTIAL")
+            {
+                switch (s)
+                {
+                    case "Orbit": return HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().Orbit;
+                    case "GasPlanetColor": return HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().GasPlanetColor;
+                    case "AtmospherePressure": return HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().AtmospherePressure;
+                    case "AtmosphereToggle": return HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().AtmosphereToggle;
+                    case "Name": return HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().Name;
+                }
+
+                ScreenMessages.PostScreenMessage("Unknown setting: [" + s + "]");
+                Debug.Log("Unknown setting: [" + s + "]");
+                return false;
+            } else
+            {
+                return true;
+            }
+            
+        }
         /// <summary>
         /// Gets called when the users switches from one game scene to another one.
         /// </summary>
@@ -134,7 +156,14 @@ namespace PlanetaryDiversity
             if (action.from == GameScenes.MAINMENU && action.to == GameScenes.SPACECENTER)
             {
                 if (SeedParams.activeSet)
+                {
                     HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active = true;
+                    HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().Orbit = SeedParams.Orbit;
+                    HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().GasPlanetColor = SeedParams.GasPlanetColor;
+                    HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().AtmospherePressure = SeedParams.AtmospherePressure;
+                    HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().AtmosphereToggle = SeedParams.AtmosphereToggle;
+                    HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().Name = SeedParams.Name;
+                }
 
                 if (!HighLogic.CurrentGame.Parameters.CustomParams<PlanetaryDiversity>().active)
                     return;
@@ -175,6 +204,9 @@ namespace PlanetaryDiversity
                             continue;
 
                         // Is the tweak itself enabled?
+                        if (!Setting(tweaker.GetConfig(), tweaker.GetSetting()))
+                            continue;
+#if false
                         String setting = tweaker.GetSetting();
                         if (setting != null)
                         {
@@ -183,6 +215,7 @@ namespace PlanetaryDiversity
                             if (!Boolean.TryParse(config.GetValue(setting), out isEnabled) || !isEnabled)
                                 continue;
                         }
+#endif
 
                         // Tweak it
                         if (tweaker.Tweak(body, body.pqsController))
@@ -209,6 +242,9 @@ namespace PlanetaryDiversity
                             continue;
 
                         // Is the tweak itself enabled?
+                        if (!Setting(tweaker.GetConfig(), tweaker.GetSetting()))
+                            continue;
+#if false
                         String setting = tweaker.GetSetting();
                         if (setting != null)
                         {
@@ -217,7 +253,7 @@ namespace PlanetaryDiversity
                             if (!Boolean.TryParse(config.GetValue(setting), out isEnabled) || !isEnabled)
                                 continue;
                         }
-
+#endif
                         // Tweak them
                         foreach (PQSMod mod in mods)
                         {
@@ -252,6 +288,9 @@ namespace PlanetaryDiversity
                         continue;
 
                     // Is the tweak itself enabled?
+                    if (!Setting(tweaker.GetConfig(), tweaker.GetSetting()))
+                        continue;
+#if false
                     String setting = tweaker.GetSetting();
                     if (setting != null)
                     {
@@ -260,6 +299,7 @@ namespace PlanetaryDiversity
                         if (!Boolean.TryParse(config.GetValue(setting), out isEnabled) || !isEnabled)
                             continue;
                     }
+#endif
 
                     // Tweak it!
                     for (Int32 j = 0; j < bodies.Count; j++)

@@ -28,6 +28,8 @@ namespace PlanetaryDiversity
         /// </summary>
         private MainMenu menu { get; set; }
 
+        public static bool Orbit = true, GasPlanetColor = true, AtmospherePressure = true, AtmosphereToggle = true, Name = true;
+
         /// <summary>
         /// Gets called when the mono behaviour is created and registers a callback for changing
         /// the game seed
@@ -71,6 +73,21 @@ namespace PlanetaryDiversity
 
             Active = true;
 
+            ConfigNode config = GameDatabase.Instance.GetConfigs("PD_CELESTIAL")[0].config;
+
+
+            if (config.HasValue("Orbit"))
+                Boolean.TryParse(config.GetValue("Orbit"), out SeedParams.Orbit);
+            if (config.HasValue("GasPlanetColor"))
+                Boolean.TryParse(config.GetValue("GasPlanetColor"), out SeedParams.GasPlanetColor);
+            if (config.HasValue("AtmospherePressure"))
+                Boolean.TryParse(config.GetValue("AtmospherePressure"), out SeedParams.AtmospherePressure);
+            if (config.HasValue("AtmosphereToggle"))
+                Boolean.TryParse(config.GetValue("AtmosphereToggle"), out SeedParams.AtmosphereToggle);
+            if (config.HasValue("Name"))
+                Boolean.TryParse(config.GetValue("Name"), out SeedParams.Name);
+
+
             // Create the new layout
             DialogGUIHorizontalLayout layout = new DialogGUIHorizontalLayout(new DialogGUIBase[]
             {
@@ -81,7 +98,52 @@ namespace PlanetaryDiversity
                 new DialogGUIFlexibleSpace(),
                 new DialogGUITextInput(Seed ?? "", Localizer.Format("#LOC_PlanetaryDiversity_SeedParams_Placeholder"), false, 32, (s) => Seed = s, 200f, 30f)
             });
+            
+            DialogGUIHorizontalLayout layoutOrbit = new DialogGUIHorizontalLayout(new DialogGUIBase[]
+            {
+                new DialogGUILabel(Localizer.Format(""),15),
+                new DialogGUIToggle(Orbit, Localizer.Format("#Change_orbits"),(b) => Orbit = b, 200f)
+            });
+
+            DialogGUIHorizontalLayout layoutGPColor = new DialogGUIHorizontalLayout(new DialogGUIBase[]
+            {
+                new DialogGUILabel(Localizer.Format(""),15),
+                new DialogGUIToggle(GasPlanetColor, Localizer.Format("#Gas_Planet_Color"),(b) => GasPlanetColor = b, 200f)
+            });
+
+            DialogGUIHorizontalLayout layoutAtmoPres = new DialogGUIHorizontalLayout(new DialogGUIBase[]
+            {
+                new DialogGUILabel(Localizer.Format(""),15),
+                new DialogGUIToggle(AtmospherePressure, Localizer.Format("#Atmosphere_Pressure"),(b) => AtmospherePressure = b, 200f)
+            });
+
+            DialogGUIHorizontalLayout layoutAtmo = new DialogGUIHorizontalLayout(new DialogGUIBase[]
+            {
+                new DialogGUILabel(Localizer.Format(""),15),
+                new DialogGUIToggle(AtmosphereToggle, Localizer.Format("#AddRemove_Atmosphere"),(b) => AtmosphereToggle = b, 200f)
+            });
+
+            DialogGUIHorizontalLayout layoutName = new DialogGUIHorizontalLayout(new DialogGUIBase[]
+            {
+                new DialogGUILabel(Localizer.Format(""),15),
+                new DialogGUIToggle(Name, Localizer.Format("#Planet_Names"),(b) => Name = b, 200f)
+            });
+
+            DialogGUIHorizontalLayout blankline = new DialogGUIHorizontalLayout(new DialogGUIBase[]
+            {
+                new DialogGUILabel(Localizer.Format(""),15)
+            });
+
             d2.children.Insert(1, layout);
+            d2.children.Insert(2, layoutOrbit);
+            d2.children.Insert(3, layoutGPColor);
+            d2.children.Insert(4, layoutAtmoPres);
+            d2.children.Insert(5, layoutAtmo);
+            d2.children.Insert(6, layoutName);
+            d2.children.Insert(7, blankline);
+
+
+
             d1.children[0] = d2;
             dialog.dialogToDisplay.Options[0] = d1;
             PopupDialog newDialog = PopupDialog.SpawnPopupDialog(new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), dialog.dialogToDisplay, false, menu.guiSkinDef.SkinDef, true, "");

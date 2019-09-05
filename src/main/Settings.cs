@@ -25,6 +25,20 @@ namespace PlanetaryDiversity
         [GameParameters.CustomParameterUI("Active")]
         public bool active = false;
 
+        [GameParameters.CustomParameterUI("Orbit")]
+        public bool Orbit = false;
+
+        [GameParameters.CustomParameterUI("GasPlanetColor")]
+        public bool GasPlanetColor = false;
+
+        [GameParameters.CustomParameterUI("AtmospherePressure")]
+        public bool AtmospherePressure = false;
+
+        [GameParameters.CustomParameterUI("AtmosphereToggle")]
+        public bool AtmosphereToggle = false;
+
+        [GameParameters.CustomParameterUI("Name")]
+        public bool Name = false;
 
 
         public override void SetDifficultyPreset(GameParameters.Preset preset)
