@@ -12,3 +12,6 @@
 	Added settings page, to show whether it is active or not.  Changes not allowed
 	Added options to the Start New Game dialog, to allow specific customizations of what to change
 	The Config/CelestialBodies.cfg is now used to initialize the values in the Start New Game dialog
+
+1.7.3.2
+	Version bump to fix release
