@@ -18,3 +18,8 @@
 
 1.7.3.3
 	Fixed nullref when Kopernicus was installed, was causing generation to hang
+
+1.7.3.4
+	Rebuild to fix bad release
+
+WARNING - JENKINS MISSES ALL THE DLL FILES, NEEDS TO BE UPLOADED BY HAND
