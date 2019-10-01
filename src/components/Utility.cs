@@ -149,7 +149,11 @@ namespace PlanetaryDiversity.Components
         {
             // Create new mesh object
             Mesh dest = new Mesh();
-
+            if (source == null)
+            {
+                Debug.Log("DuplicateMesh, source is null");
+                return dest;
+            }
             //ProfileTimer.Push("CopyMesh");
             Vector3[] verts = new Vector3[source.vertexCount];
             source.vertices.CopyTo(verts, 0);

@@ -18,5 +18,6 @@ copy /y "%1\*.pdb" "%GAMEDATA%\%GAMEDIR%\Plugins"
 copy /Y %VERSIONFILE% %GAMEDATA%\%GAMEDIR%
 
 xcopy /y /s /I %GAMEDATA%\%GAMEDIR% "%H%\GameData\%GAMEDIR%"
+rem xcopy /y /s /I %GAMEDATA%\%GAMEDIR% "R:\KSP_1.7.3-Kopernicus\GameData\%GAMEDIR%"
 
 
