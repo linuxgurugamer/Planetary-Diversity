@@ -29,7 +29,7 @@
 	
 
 	// For Visual Studio / MSBuild Build-Time Template Resolution
-	string RootDirectory = System.IO.Path.GetDirectoryName(Host.TemplateFile) + @"\..\";
+	string RootDirectory = System.IO.Path.GetDirectoryName(Host.TemplateFile) + "/../";
 	
 
 	//

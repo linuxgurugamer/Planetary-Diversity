@@ -32,13 +32,13 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\Assembly*.dll">
-	   <Private>False</Private>
+    <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\Assembly*.dll">
+      <Private>False</Private>
     </Reference>
     <Reference Include="$(KSPDIR)\KSP_x64_Data\Managed\UnityEngine*.dll">
-	   <Private>False</Private>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="System" />	
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AtmospherePressureTweak.cs" />
@@ -54,9 +54,6 @@
       <Project>{851d7bb6-6f14-45fe-a945-f7fd73902d94}</Project>
       <Name>PlanetaryDiversity.Components</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
