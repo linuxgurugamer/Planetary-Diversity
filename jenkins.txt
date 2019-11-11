@@ -37,6 +37,7 @@
 2:PlanetaryDiversity,src/celestialbodies/atmosphere/PlanetaryDiversity.CelestialBodies.Atmosphere.csproj,PlanetaryDiversity.version,GameData/PlanetaryDiversity/Plugins
 2:PlanetaryDiversity,src/celestialbodies/gasplanetcolor/PlanetaryDiversity.CelestialBodies.GasPlanetColor.csproj,PlanetaryDiversity.version,GameData/PlanetaryDiversity/Plugins
 
+2c:-unsafe
 # 3:SOURCEFILE, DESTDIR
 3:PlanetaryDiversity.version,GameData/PlanetaryDiversity
 3:LICENSE,GameData/PlanetaryDiversity
