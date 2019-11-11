@@ -1,3 +1,7 @@
+ChangeLog
+
+1.7.4
+	Updated for KSP 1.8
 
 1.7.3.1
 	Fixed Reflection call to get Mod_OnVertexBuildHeight (new bool was added back in 1.5 or so)
@@ -21,5 +25,9 @@
 
 1.7.3.4
 	Rebuild to fix bad release
+
+1.7.3.5 (unreleased)
+	Fixed url in .version file
+	Added download url to .version file
 
 WARNING - JENKINS MISSES ALL THE DLL FILES, NEEDS TO BE UPLOADED BY HAND
