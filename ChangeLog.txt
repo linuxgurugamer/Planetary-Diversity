@@ -1,5 +1,8 @@
 ChangeLog
 
+1.7.4.1
+	Bumped version number for .version file update
+
 1.7.4
 	Updated for KSP 1.8
 
